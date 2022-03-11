@@ -18,11 +18,19 @@ abstract class BaseViewModel<D : AppStateEntity> : ViewModel() {
     val stateLiveData get() = mSharedFlow.asSharedFlow()
 
     private val ioCoroutineScope = CoroutineScope(
-        Dispatchers.IO + SupervisorJob()
+        Dispatchers.IO
+                + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            handleError(throwable)
+        }
     )
 
     private val mainCoroutineScope = CoroutineScope(
-        Dispatchers.Main + SupervisorJob()
+        Dispatchers.Main
+                + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            handleError(throwable)
+        }
     )
 
     protected fun runOnMainThread(block: suspend () -> Unit) =
@@ -38,6 +46,13 @@ abstract class BaseViewModel<D : AppStateEntity> : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         ioCoroutineScope.coroutineContext.cancelChildren()
+    }
+
+    open fun handleError(error: Throwable) {
+        error.printStackTrace()
+        runAsync {
+            mSharedFlow.emit(AppState.Error(error))
+        }
     }
 
     abstract fun onViewInit()
