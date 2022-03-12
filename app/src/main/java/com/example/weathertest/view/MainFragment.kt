@@ -23,6 +23,7 @@ class MainFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = HourlyAdapter()
         binding.rvHourly.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHourly.adapter = adapter
     }
