@@ -3,8 +3,9 @@ package com.example.weathertest.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weathertest.R
+import com.example.weathertest.di.App
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : App() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
