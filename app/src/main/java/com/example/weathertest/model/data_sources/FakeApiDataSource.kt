@@ -9,12 +9,25 @@ import kotlinx.coroutines.runBlocking
 class FakeApiDataSource : ApiDataSource {
 
     override fun getWeather(
-        city: String,
+        lat: Double,
+        long: Double,
         appId: String,
         exclude: String
     ): Deferred<WeatherEntity> = runBlocking {
         async {
-            WeatherEntity(listOf(HourlyEntity()))
+            WeatherEntity(listOf(
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity(),
+                HourlyEntity()
+            ))
         }
     }
 

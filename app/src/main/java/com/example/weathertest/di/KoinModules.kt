@@ -3,6 +3,7 @@ package com.example.weathertest.di
 import com.example.weathertest.model.api.ApiService
 import com.example.weathertest.model.api.MAIN_API_URL
 import com.example.weathertest.model.data_sources.ApiDataSource
+import com.example.weathertest.model.data_sources.ApiDataSourceImpl
 import com.example.weathertest.model.data_sources.FakeApiDataSource
 import com.example.weathertest.model.repository.WeatherRepository
 import com.example.weathertest.model.repository.WeatherRepositoryImpl

@@ -4,6 +4,6 @@ import com.example.weathertest.model.entity.WeatherEntity
 
 interface WeatherRepository {
 
-    suspend fun getWeatherByCity(city: String, exclude: String): WeatherEntity
+    suspend fun getWeather(lat: Double, long: Double, exclude: String): WeatherEntity
 
 }

@@ -4,12 +4,13 @@ import com.example.weathertest.model.api.ApiService
 import com.example.weathertest.model.entity.WeatherEntity
 import kotlinx.coroutines.Deferred
 
-class ApiDataSourceImpl(val service: ApiService) : ApiDataSource {
+class ApiDataSourceImpl(private val service: ApiService) : ApiDataSource {
 
     override fun getWeather(
-        city: String,
+        lat: Double,
+        long: Double,
         appId: String,
         exclude: String
-    ): Deferred<WeatherEntity> = service.getWeather(city, appId, exclude)
+    ): Deferred<WeatherEntity> = service.getWeather(lat, long, appId, exclude)
 
 }

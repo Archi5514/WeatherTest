@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 tools:text="17:00" />
@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_big"
+                android:layout_marginBottom="@dimen/margin_small"
                 tools:text="27 C" />
 
         </LinearLayout>

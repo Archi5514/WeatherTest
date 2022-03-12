@@ -24,7 +24,6 @@ class MainFragment :
         super.onViewCreated(view, savedInstanceState)
 
         adapter = HourlyAdapter()
-        binding.rvHourly.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHourly.adapter = adapter
     }
 

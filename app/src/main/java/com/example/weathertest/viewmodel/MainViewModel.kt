@@ -12,7 +12,7 @@ class MainViewModel(private val weatherRepository: WeatherRepository) :
 
     override fun onViewInit() {
         runAsync {
-            val unAdaptedEntity = weatherRepository.getWeatherByCity("city", Exclude.HOURLY).hourly
+            val unAdaptedEntity = weatherRepository.getWeather(33.44, -94.04, Exclude.HOURLY).hourly
             val adaptedEntity = HourlyAdapterData()
 
             for (e in unAdaptedEntity) {

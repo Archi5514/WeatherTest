@@ -9,7 +9,8 @@ interface ApiService {
 
     @GET("/data/2.5/onecall")
     fun getWeather(
-        @Query("q") city: String,
+        @Query("lat") lat: Double,
+        @Query("long") long: Double,
         @Query("appid") appId: String,
         @Query("exclude") exclude: String
     ): Deferred<WeatherEntity>
