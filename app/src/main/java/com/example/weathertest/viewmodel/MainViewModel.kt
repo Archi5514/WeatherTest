@@ -18,11 +18,11 @@ class MainViewModel(private val weatherRepository: WeatherRepository) :
             val unAdaptedEntity = weatherRepository.getWeather(33.44, -94.04, Exclude.HOURLY).hourly
             val adaptedEntity = AdapterData()
 
-            val startDate = Date(unAdaptedEntity.first().dt).formatAsDays().toInt()
-            val counter = Date(unAdaptedEntity.last().dt).formatAsDays().toInt() - startDate
-            val minTempArray = IntArray(counter) { 100 }
-            val maxTempArray = IntArray(counter) { -100 }
-            val cloudnessArray = Array<MutableList<Int>>(counter) { mutableListOf() }
+            val startDate = Date(unAdaptedEntity.first().dt * 1000).formatAsDays().toInt()
+            val counter = Date(unAdaptedEntity.last().dt * 1000).formatAsDays().toInt() - startDate
+            val minTempArray = IntArray(counter + 1) { 100 }
+            val maxTempArray = IntArray(counter + 1) { -100 }
+            val cloudnessArray = Array(counter + 1) { mutableListOf(CloudImage.SUNNY_BLACK) }
 
             for (e in unAdaptedEntity) {
                 val hourlyImage = if (e.clouds <= 50) CloudImage.SUNNY_SMALL

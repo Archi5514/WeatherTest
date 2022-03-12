@@ -17,16 +17,7 @@ class FakeApiDataSource : ApiDataSource {
         async {
             WeatherEntity(listOf(
                 HourlyEntity(dt = 1618315200, temp = 12.5),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity(),
-                HourlyEntity()
+                HourlyEntity(dt = 1808315200, temp = 20.0)
             ))
         }
     }
