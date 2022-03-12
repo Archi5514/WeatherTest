@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.weathertest.R
 import com.example.weathertest.di.App
 
-class MainActivity : App() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

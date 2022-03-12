@@ -1,13 +1,12 @@
 package com.example.weathertest.di
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Application
 import org.koin.core.context.startKoin
 
-open class App : AppCompatActivity() {
+open class App : Application() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate() {
+        super.onCreate()
 
         startKoin {
             modules(dataSourceModule, retrofitModule, repositoryModule, viewModelModule)

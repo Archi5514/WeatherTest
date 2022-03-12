@@ -16,7 +16,7 @@ class FakeApiDataSource : ApiDataSource {
     ): Deferred<WeatherEntity> = runBlocking {
         async {
             WeatherEntity(listOf(
-                HourlyEntity(),
+                HourlyEntity(dt = 1618315200, temp = 12.5),
                 HourlyEntity(),
                 HourlyEntity(),
                 HourlyEntity(),
