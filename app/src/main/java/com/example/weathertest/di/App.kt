@@ -1,6 +1,7 @@
 package com.example.weathertest.di
 
 import android.app.Application
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 open class App : Application() {
@@ -9,6 +10,7 @@ open class App : Application() {
         super.onCreate()
 
         startKoin {
+            androidContext(this@App)
             modules(dataSourceModule, retrofitModule, repositoryModule, viewModelModule)
         }
     }
