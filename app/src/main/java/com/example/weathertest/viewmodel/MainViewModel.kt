@@ -3,7 +3,7 @@ package com.example.weathertest.viewmodel
 import com.example.weathertest.formatAsDays
 import com.example.weathertest.formatAsHours
 import com.example.weathertest.model.api.Exclude
-import com.example.weathertest.model.entity.AdapterData
+import com.example.weathertest.model.entity.MainViewState
 import com.example.weathertest.model.entity.AdapterEntity
 import com.example.weathertest.model.repository.WeatherRepository
 import com.example.weathertest.view.AppState
@@ -11,18 +11,21 @@ import com.example.weathertest.view.CloudImage
 import java.util.*
 
 class MainViewModel(private val weatherRepository: WeatherRepository) :
-    BaseViewModel<AdapterData>() {
+    BaseViewModel<MainViewState>() {
+
+    private lateinit var adaptedEntity: MainViewState
 
     override fun onViewInit() {
         runAsync {
             val unAdaptedEntity = weatherRepository.getWeather(33.44, -94.04, Exclude.HOURLY).hourly
-            val adaptedEntity = AdapterData()
 
-            val startDate = Date(unAdaptedEntity.first().dt * 1000).formatAsDays().toInt()
-            val counter = Date(unAdaptedEntity.last().dt * 1000).formatAsDays().toInt() - startDate
+            val startDate = Date(unAdaptedEntity.first().dt * 1000).formatAsDays()
+            val counter = Date(unAdaptedEntity.last().dt * 1000).formatAsDays().toInt() - startDate.toInt()
             val minTempArray = IntArray(counter + 1) { 100 }
             val maxTempArray = IntArray(counter + 1) { -100 }
             val cloudnessArray = Array(counter + 1) { mutableListOf(CloudImage.SUNNY_BLACK) }
+
+            adaptedEntity = MainViewState(date = startDate)
 
             for (e in unAdaptedEntity) {
                 val hourlyImage = if (e.clouds <= 50) CloudImage.SUNNY_SMALL
@@ -38,7 +41,7 @@ class MainViewModel(private val weatherRepository: WeatherRepository) :
                     )
                 )
 
-                val index = Date(e.dt * 1000).formatAsDays().toInt() - startDate
+                val index = Date(e.dt * 1000).formatAsDays().toInt() - startDate.toInt()
 
                 cloudnessArray[index].add(hourlyImage)
 
@@ -54,13 +57,22 @@ class MainViewModel(private val weatherRepository: WeatherRepository) :
 
                 adaptedEntity.dailyList.add(
                     AdapterEntity(
-                        (startDate + i).toString(),
+                        (startDate.toInt() + i).toString(),
                         "${maxTempArray[i]}°/${minTempArray[i]}°",
                         dailyImage
                     )
                 )
             }
 
+            mSharedFlow.emit(
+                AppState.Success(adaptedEntity)
+            )
+        }
+    }
+
+    fun onDailyItemClick(position: Int) {
+        runAsync {
+            adaptedEntity.date = adaptedEntity.dailyList[position].time
             mSharedFlow.emit(
                 AppState.Success(adaptedEntity)
             )

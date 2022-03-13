@@ -2,11 +2,11 @@ package com.example.weathertest.view.adapters
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weathertest.model.entity.AdapterData
+import com.example.weathertest.model.entity.MainViewState
 
 abstract class BaseAdapter<T : BaseAdapter<T>.BaseViewHolder> : RecyclerView.Adapter<T>() {
 
-    var data: AdapterData = AdapterData()
+    var data: MainViewState = MainViewState()
         set(value) {
             field = value
             notifyDataSetChanged()
