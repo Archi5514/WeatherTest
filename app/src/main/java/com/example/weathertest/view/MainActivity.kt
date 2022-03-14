@@ -13,6 +13,11 @@ class MainActivity : AppCompatActivity() {
 
     private val locationDataSource: LocationDataSourceImpl by inject()
 
+    companion object {
+        @RequiresApi(Build.VERSION_CODES.O)
+        val fragment = MainFragment()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +26,7 @@ class MainActivity : AppCompatActivity() {
         locationDataSource.locationActivity = this
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MainFragment())
-            .addToBackStack(null)
+            .replace(R.id.fragment_container, fragment)
             .commit()
     }
 

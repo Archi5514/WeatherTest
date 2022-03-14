@@ -1,6 +1,7 @@
 package com.example.weathertest.viewmodel
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.example.weathertest.formatAsDays
 import com.example.weathertest.formatAsHours
 import com.example.weathertest.formatAsWeekDays
@@ -31,7 +32,9 @@ class MainViewModel(
         const val DEFAULT_NAME = "Zaporizhya"
     }
 
+    private var adaptedEntity = MainViewState()
     private var cityEntity = locationDataSource.getCityEntity()
+    private var day: String? = null
 
     override fun onViewInit() {
         updateLocation()
@@ -46,9 +49,9 @@ class MainViewModel(
 
     fun onDailyItemClick(position: Int) {
         runAsync {
-            val date = adaptedEntity.dailyList[position].time
+            day = adaptedEntity.dailyList[position].time
+            adaptedEntity.date = day!!
 
-            adaptedEntity.date = date
             mSharedFlow.emit(
                 AppState.Success(adaptedEntity)
             )
@@ -57,8 +60,12 @@ class MainViewModel(
 
     private fun updateView(lat: Double, long: Double) {
         runAsync {
+            adaptedEntity = mapper.map(lat, long)
+            if (day == null) day = adaptedEntity.dailyList.first().time
+            adaptedEntity.date = day!!
+
             mSharedFlow.emit(
-                AppState.Success(mapper.map(lat, long))
+                AppState.Success(adaptedEntity)
             )
         }
     }

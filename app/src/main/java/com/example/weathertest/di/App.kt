@@ -11,7 +11,7 @@ open class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(dataSourceModule, retrofitModule, repositoryModule, viewModelModule)
+            modules(dataSourceModule, retrofitModule, repositoryModule, viewModelModule, mapperModule)
         }
     }
 
