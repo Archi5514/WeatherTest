@@ -2,9 +2,7 @@ package com.example.weathertest.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -53,9 +51,9 @@ class MainFragment :
         binding.rvDaily.adapter = dailyAdapter
         binding.cityTextView.text = viewModel.getCityName()
 
-        binding.imageViewLocation.setOnClickListener {
-            binding.cityTextView.text = viewModel.getCityName()
+        binding.myLocationImageView.setOnClickListener {
             viewModel.updateLocation()
+            binding.cityTextView.text = viewModel.getCityName()
         }
     }
 

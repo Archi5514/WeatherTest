@@ -1,22 +1,10 @@
 package com.example.weathertest.viewmodel
 
 import android.annotation.SuppressLint
-import android.util.Log
-import com.example.weathertest.formatAsDays
-import com.example.weathertest.formatAsHours
-import com.example.weathertest.formatAsWeekDays
-import com.example.weathertest.model.api.Exclude
 import com.example.weathertest.model.data_sources.LocationDataSource
 import com.example.weathertest.model.entity.MainViewState
-import com.example.weathertest.model.entity.AdapterEntity
-import com.example.weathertest.model.entity.HourlyEntity
 import com.example.weathertest.model.mappers.MainMapper
-import com.example.weathertest.model.repository.WeatherRepository
 import com.example.weathertest.view.AppState
-import com.example.weathertest.view.CloudImage
-import java.math.RoundingMode
-import java.util.*
-import kotlin.math.roundToInt
 
 
 @SuppressLint("MissingPermission")
