@@ -35,7 +35,6 @@ class MainFragment :
 
     private var hourlyAdapter = HourlyAdapter()
     private var dailyAdapter = DailyAdapter(this)
-    private var day: String = Date(System.currentTimeMillis()).formatAsWeekDays()
 
     private val locationPermissionCode = 2
 
@@ -72,9 +71,8 @@ class MainFragment :
     }
 
     override fun renderSuccess(data: MainViewState) {
-        data.date.let { if (it != "") day = it }
         for (d in data.dailyList) {
-            if (d.time == day) {
+            if (d.time == data.date) {
                 initView(d)
                 break
             }

@@ -6,7 +6,7 @@ import com.example.weathertest.model.entity.MainViewState
 
 abstract class BaseAdapter<T : BaseAdapter<T>.BaseViewHolder> : RecyclerView.Adapter<T>() {
 
-    var data: MainViewState = MainViewState
+    var data: MainViewState = MainViewState()
         set(value) {
             field = value
             notifyDataSetChanged()

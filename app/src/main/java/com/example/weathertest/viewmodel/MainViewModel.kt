@@ -9,6 +9,7 @@ import com.example.weathertest.model.data_sources.LocationDataSource
 import com.example.weathertest.model.entity.MainViewState
 import com.example.weathertest.model.entity.AdapterEntity
 import com.example.weathertest.model.entity.HourlyEntity
+import com.example.weathertest.model.mappers.MainMapper
 import com.example.weathertest.model.repository.WeatherRepository
 import com.example.weathertest.view.AppState
 import com.example.weathertest.view.CloudImage
@@ -19,7 +20,7 @@ import kotlin.math.roundToInt
 
 @SuppressLint("MissingPermission")
 class MainViewModel(
-    private val weatherRepository: WeatherRepository,
+    private val mapper: MainMapper,
     private val locationDataSource: LocationDataSource
 ) :
     BaseViewModel<MainViewState>() {
@@ -30,8 +31,6 @@ class MainViewModel(
         const val DEFAULT_NAME = "Zaporizhya"
     }
 
-    private val adaptedEntity = MainViewState
-    private var unAdaptedEntity: List<HourlyEntity> = emptyList()
     private var cityEntity = locationDataSource.getCityEntity()
 
     override fun onViewInit() {
@@ -58,81 +57,8 @@ class MainViewModel(
 
     private fun updateView(lat: Double, long: Double) {
         runAsync {
-            unAdaptedEntity = weatherRepository.getWeather(
-                lat,
-                long,
-                Exclude.DAILY
-            ).hourly
-            val startDate = Date(unAdaptedEntity.first().dt * 1000).formatAsDays()
-            val counter =
-                Date(unAdaptedEntity.last().dt * 1000).formatAsDays().toInt() - startDate.toInt()
-            val minTempArray = IntArray(counter + 1) { 1000 }
-            val maxTempArray = IntArray(counter + 1) { -1000 }
-            val humidityArray = Array<MutableList<Int>>(counter + 1) { mutableListOf() }
-            val windSpeedArray = Array<MutableList<Double>>(counter + 1) { mutableListOf() }
-            val cloudnessArray = Array<MutableList<Int>>(counter + 1) { mutableListOf() }
-
-            adaptedEntity.hourlyList.clear()
-            adaptedEntity.dailyList.clear()
-
-            for (e in unAdaptedEntity) {
-
-                val hourlyImage = if (e.clouds <= 50) CloudImage.SUNNY_SMALL
-                else CloudImage.CLOUDY_SMALL
-
-                val date = Date(e.dt * 1000).formatAsHours()
-
-                adaptedEntity.hourlyList.add(
-                    AdapterEntity(
-                        date,
-                        "${e.temp.toInt() - 273}°",
-                        hourlyImage
-                    )
-                )
-
-                val index = Date(e.dt * 1000).formatAsDays().toInt() - startDate.toInt()
-
-                if (minTempArray[index] > e.temp.toInt()) minTempArray[index] = e.temp.toInt()
-                if (maxTempArray[index] < e.temp.toInt()) maxTempArray[index] = e.temp.toInt()
-
-                cloudnessArray[index].add(e.clouds)
-                humidityArray[index].add(e.humidity)
-                windSpeedArray[index].add(e.windSpeed)
-            }
-
-            for (i in 0..counter) {
-                var dailyImage = CloudImage.SUNNY_BLACK
-                var dailyWindSpeed = 0.0
-                var dailyHumidity = 0
-                var cloudnessSum = 0
-                var humiditySum = 0
-                var windspeedSum = 0.0
-                cloudnessArray[i].forEach { cloudnessSum += it }
-                humidityArray[i].forEach { humiditySum += it }
-                windSpeedArray[i].forEach { windspeedSum += it }
-
-                if (cloudnessArray[i].size != 0) {
-                    dailyImage =
-                        if (cloudnessSum / cloudnessArray[i].size <= 50) CloudImage.SUNNY_BLACK
-                        else CloudImage.CLOUDY_BLACK
-                    dailyWindSpeed = (windspeedSum / windSpeedArray[i].size).toBigDecimal()
-                        .setScale(2, RoundingMode.HALF_EVEN).toDouble()
-                    dailyHumidity = (humiditySum / humidityArray[i].size)
-                }
-
-                adaptedEntity.dailyList.add(
-                    AdapterEntity(
-                        Date(unAdaptedEntity.first().dt + i * 86400000).formatAsWeekDays(),
-                        "${maxTempArray[i] - 273}°/${minTempArray[i] - 273}°",
-                        dailyImage,
-                        dailyWindSpeed,
-                        dailyHumidity
-                    )
-                )
-            }
-
             mSharedFlow.emit(
-                AppState.Success(adaptedEntity)
+                AppState.Success(mapper.map(lat, long))
             )
         }
     }
