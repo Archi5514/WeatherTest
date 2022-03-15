@@ -1,7 +1,6 @@
 package com.example.weathertest.model.data_sources
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.*
@@ -34,7 +33,7 @@ class LocationDataSourceImpl : LocationDataSource {
                 long = location.longitude
             }
 
-            if(lat == null || long == null || name == null) return null
+            if (lat == null || long == null || name == null) return null
             return CityEntity(lat!!, long!!, name!!)
 
         } else {
@@ -46,20 +45,14 @@ class LocationDataSourceImpl : LocationDataSource {
     private fun requestLocationPermission() {
         locationActivity?.requestPermissions(
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-            1000
+            228
         )
     }
 
     private fun getCityByCoordinates(lat: Double, lon: Double): String? {
         val geocoder = Geocoder(locationActivity, Locale.getDefault())
-
-        val addresses = geocoder.getFromLocation(lat, lon, 10)
-        addresses.forEach { ad ->
-            ad?.let {
-                if (ad.locality.isNotEmpty()) return ad.locality
-            }
-        }
-
-        return null
+        val addresses = geocoder.getFromLocation(lat, lon, 1)
+        if(addresses.isEmpty()) return null
+        return addresses[0].locality
     }
 }

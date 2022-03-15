@@ -20,7 +20,10 @@ class DailyAdapter(private val listener: OnItemClickListener) :
         override fun bind(position: Int) {
             binding.dateTextView.text = data.dailyList[position].time
             binding.temperatureTextView.text = data.dailyList[position].temp
-            binding.cloudnessImageView.setImageResource(data.dailyList[position].image)
+            binding.cloudnessImageView.setImageResource(
+                data.dailyList[position].image
+            )
+
         }
 
         override fun onClick(v: View?) {

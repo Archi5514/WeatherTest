@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.example.weathertest.model.api.ApiService
 import com.example.weathertest.model.api.MAIN_API_URL
 import com.example.weathertest.model.data_sources.*
+import com.example.weathertest.model.mappers.MainMapper
 import com.example.weathertest.model.repository.WeatherRepository
 import com.example.weathertest.model.repository.WeatherRepositoryImpl
 import com.example.weathertest.viewmodel.MainViewModel
@@ -41,6 +42,10 @@ val retrofitModule = module {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build().create(ApiService::class.java)
     }
+}
+
+val mapperModule = module {
+    single { MainMapper(get()) }
 }
 
 val viewModelModule = module {

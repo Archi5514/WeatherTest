@@ -2,9 +2,7 @@ package com.example.weathertest.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -53,9 +51,9 @@ class MainFragment :
         binding.rvDaily.adapter = dailyAdapter
         binding.cityTextView.text = viewModel.getCityName()
 
-        binding.imageViewLocation.setOnClickListener {
+        binding.myLocationImageView.setOnClickListener {
+            viewModel.initLocation()
             binding.cityTextView.text = viewModel.getCityName()
-            viewModel.updateLocation()
         }
     }
 
@@ -72,7 +70,7 @@ class MainFragment :
     }
 
     override fun renderSuccess(data: MainViewState) {
-        data.date.let { if (it != "") day = it }
+        data.date?.let { day = it }
         for (d in data.dailyList) {
             if (d.time == day) {
                 initView(d)
@@ -100,6 +98,10 @@ class MainFragment :
                 locationPermissionCode
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }
