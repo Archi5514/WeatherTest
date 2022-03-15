@@ -14,7 +14,9 @@ class HourlyAdapter : BaseAdapter<HourlyAdapter.HourlyViewHolder>() {
         override fun bind(position: Int) {
             binding.timeTextView.text = data.hourlyList[position].time
             binding.temperatureTextView.text = data.hourlyList[position].temp
-            binding.cloudnessImageView.setImageResource(data.hourlyList[position].image)
+            binding.cloudnessImageView.setImageResource(
+                data.hourlyList[position].image
+            )
         }
     }
 

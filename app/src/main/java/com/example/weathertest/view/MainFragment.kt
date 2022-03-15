@@ -52,7 +52,7 @@ class MainFragment :
         binding.cityTextView.text = viewModel.getCityName()
 
         binding.myLocationImageView.setOnClickListener {
-            viewModel.updateLocation()
+            viewModel.initLocation()
             binding.cityTextView.text = viewModel.getCityName()
         }
     }
@@ -70,7 +70,7 @@ class MainFragment :
     }
 
     override fun renderSuccess(data: MainViewState) {
-        data.date.let { if (it != "") day = it }
+        data.date?.let { day = it }
         for (d in data.dailyList) {
             if (d.time == day) {
                 initView(d)

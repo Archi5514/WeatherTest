@@ -19,6 +19,6 @@ fun <T> Flow<T>.launchWhenStarted(lifecycleScope: LifecycleCoroutineScope, block
 
 fun Date.formatAsHours(): String = SimpleDateFormat(DATE_HOUR_FORMAT, Locale.getDefault()).format(this)
 
-fun Date.formatAsDays(): String = SimpleDateFormat(DATE_DAY_FORMAT, Locale.getDefault()).format(this)
+fun Date.formatAsDays(): Int = SimpleDateFormat(DATE_DAY_FORMAT, Locale.getDefault()).format(this).toInt()
 
 fun Date.formatAsWeekDays(): String = SimpleDateFormat(DATE_WEEKDAY_FORMAT, Locale.getDefault()).format(this)
